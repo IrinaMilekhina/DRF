@@ -1,7 +1,11 @@
 import './App.css';
 import React from "react";
-import UserList from "./components/Users";
 import axios from 'axios'
+import UserList from "./components/Users";
+
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
 
 const api_url = 'http://127.0.0.1:8000/api'
 
@@ -14,11 +18,6 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        // this.setState(
-        //     this.state = {
-        //         'users': users
-        //     }
-        // )
         axios
             .get(`${api_url}/users`)
             .then(response => {
@@ -30,17 +29,18 @@ class App extends React.Component {
                 )
             })
             .catch(error => console.log(error))
-
-
     }
 
 
     render() {
         return (
-            <UserList users={this.state.users}/>
+            <div>
+                <Header/>
+                <UserList users={this.state.users}/>
+                <Footer/>
+            </div>
         )
     }
 }
-
 
 export default App;

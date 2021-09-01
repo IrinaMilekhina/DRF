@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.header {
+    margin-bottom: 30px;
+    width: 100%;
+    height: 100px;
+    background-color: lightgray;
+}
+
+.footer {
+    margin-top: 30px;
+    width: 100%;
+    height: 50px;
+    background-color: lightgray;
+}
+
