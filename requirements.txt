@@ -3,3 +3,4 @@ django-filter==2.4.0
 djangorestframework==3.12.4
 Markdown
 django-cors-headers
+djangorestframework-camel-case
