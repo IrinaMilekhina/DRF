@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # 3-d part apps
     'rest_framework',
     'corsheaders',
+    'django_filters',
     # custom apps
     'users',
     'todos',
@@ -138,5 +139,9 @@ REST_FRAMEWORK = {
         'djangorestframework_camel_case.parser.CamelCaseFormParser',
         'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
         'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ),
+
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
