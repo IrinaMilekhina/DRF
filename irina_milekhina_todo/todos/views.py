@@ -1,4 +1,6 @@
+from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from todos.filters import TodoFilter, ProjectFilter
 from todos.models import Project, Todo
@@ -29,3 +31,4 @@ class TodoViewSet(ModelViewSet):
     def perform_destroy(self, instance):
         instance.is_active = False
         instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
