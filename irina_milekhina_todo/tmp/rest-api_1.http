@@ -1,0 +1,11 @@
+POST http://127.0.0.1:8000//api/token/
+Content-Type: application/json
+
+{
+  "username": "django",
+  "password": "geekbrains"
+}
+
+<> 2021-09-13T145932.200.json
+
+###
