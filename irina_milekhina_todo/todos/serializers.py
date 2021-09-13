@@ -13,7 +13,6 @@ class ProjectModelSerializer(serializers.ModelSerializer):
 
 
 class TodoModelSerializer(serializers.ModelSerializer):
-    project = ProjectModelSerializer()
 
     class Meta:
         model = Todo
