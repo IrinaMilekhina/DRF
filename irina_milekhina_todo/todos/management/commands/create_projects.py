@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         number = options['number']
         for i in range(1, number + 1):
-            repo_link = f'https://link{1}.com'
+            repo_link = f'https://link{i}.com'
 
             users = User.objects.all()
             users_count = randint(0, len(users))

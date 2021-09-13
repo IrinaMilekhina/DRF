@@ -3,9 +3,8 @@ from rest_framework import serializers
 from users.models import User
 
 
-class UserModelSerializer(serializers.HyperlinkedModelSerializer):
-    projects = serializers.HyperlinkedRelatedField('project-info', many=True, read_only=True)
+class UserModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'projects')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'projects')
