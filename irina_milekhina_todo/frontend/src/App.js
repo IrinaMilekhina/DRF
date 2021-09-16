@@ -23,15 +23,14 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
-            'token': '',
-            'user': {}
+            'token': ''
         };
     }
 
     getToken(username, password) {
         axios.post(api_url + apiAuth + '/', {username: username, password: password})
             .then(response => {
-                this.setToken(response.data['token'])
+                this.setToken(response.data['token']);
             })
             .catch(error => alert('Неверный логин или пароль'));
     }
@@ -39,13 +38,13 @@ class App extends React.Component {
     setToken(token) {
         const cookies = new Cookies()
         cookies.set('token', token)
-        this.setState({'token': token})
+        this.setState({'token': token}, () => this.loadData())
     }
 
     getTokenFromStorage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({'token': token})
+        this.setState({'token': token}, () => this.loadData())
     }
 
     isAuthenticated() {
@@ -59,7 +58,8 @@ class App extends React.Component {
 
     loadData() {
         apiServices.forEach((apiService) => {
-            axios.get(api_url + 'api/' + apiService + '/')
+            axios
+                .get(`${api_url}/${apiService}/`)
                 .then(response => {
                     const data = response.data.results
                     this.setState(
