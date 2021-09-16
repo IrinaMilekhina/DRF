@@ -9,10 +9,12 @@ import TodoList from "./components/Todos";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import ProjectDetailItem from "./components/ProjectDetail";
 import LoginForm from "./components/LoginForm";
+import Cookies from "universal-cookie/lib";
 
 
-const api_url = 'http://127.0.0.1:8000/api'
-const apiServices = ['users', 'projects', 'todos']
+const api_url = 'http://127.0.0.1:8000/api';
+const apiServices = ['users', 'projects', 'todos'];
+const apiAuth = 'api-token-auth';
 
 class App extends React.Component {
     constructor(props) {
@@ -20,61 +22,74 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
-            'todos': []
+            'todos': [],
+            'token': '',
+            'user': {}
         };
     }
 
-    componentDidMount() {
-        axios
-            .get(`${api_url}/${apiServices[0]}/`)
+    getToken(username, password) {
+        axios.post(api_url + apiAuth + '/', {username: username, password: password})
             .then(response => {
-                const users = response.data.results
-                this.setState(
-                    {
-                        'users': users,
-                    }
-                );
+                this.setToken(response.data['token'])
             })
-            .catch(error => console.log(error));
-
-        axios
-            .get(`${api_url}/${apiServices[1]}/`)
-            .then(response => {
-                const projects = response.data.results
-                this.setState(
-                    {
-                        'projects': projects,
-                    }
-                );
-            })
-            .catch(error => console.log(error));
-
-        axios
-            .get(`${api_url}/${apiServices[2]}/`)
-            .then(response => {
-                const todos = response.data.results
-                this.setState(
-                    {
-                        'todos': todos,
-                    }
-                );
-            })
-            .catch(error => console.log(error));
+            .catch(error => alert('Неверный логин или пароль'));
     }
 
+    setToken(token) {
+        const cookies = new Cookies()
+        cookies.set('token', token)
+        this.setState({'token': token})
+    }
+
+    getTokenFromStorage() {
+        const cookies = new Cookies()
+        const token = cookies.get('token')
+        this.setState({'token': token})
+    }
+
+    isAuthenticated() {
+        return this.state.token !== '';
+    }
+
+    logout() {
+        this.setToken('')
+        window.location.reload()
+    }
+
+    loadData() {
+        apiServices.forEach((apiService) => {
+            axios.get(api_url + 'api/' + apiService + '/')
+                .then(response => {
+                    const data = response.data.results
+                    this.setState(
+                        {
+                            [apiService]: data
+                        }
+                    );
+                }).catch(error => console.log(error));
+        })
+    }
+
+
+    componentDidMount() {
+        this.getTokenFromStorage();
+        this.loadData();
+    }
 
     render() {
         return (
             <div className={'App'}>
                 <BrowserRouter>
-                    <Header/>
+                    <Header userIsAuth={this.isAuthenticated.bind(this)} userLogout={this.logout.bind(this)}/>
                     <div className="container">
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
                             <Route exact path='/projects/'
                                    component={() => <ProjectList projects={this.state.projects}/>}/>
                             <Route exact path='/todos/' component={() => <TodoList todos={this.state.todos}/>}/>
-                            <Route exact path='/login/' component={() => <LoginForm/>}/>
+                            <Route exact path='/login/' component={() =>
+                                <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}/>
                             <Route exact path='/projects/:id'>
                                 <ProjectDetailItem projects={this.state.projects}/>
                             </Route>
