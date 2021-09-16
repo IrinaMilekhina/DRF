@@ -7,8 +7,9 @@ const Header = (props) => {
                 <li className="header_text"><Link to='/'>Пользователи</Link></li>
                 <li className="header_text"><Link to='/projects/'>Проекты</Link></li>
                 <li className="header_text"><Link to='/todos/'>Заметки</Link></li>
-                <li className="header_text">{props.userIsAuth() ?
-                        <li className="header_text">{props.userLogout} | Выйти</li>:
+                <li className="header_text">
+                    {props.userIsAuth() ?
+                        <button onClick={props.userLogout} className="text_button">{props.username} | Выйти</button>:
                         <Link to='/login/'>Войти</Link>}
                 </li>
             </ul>

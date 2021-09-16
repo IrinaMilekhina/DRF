@@ -23,22 +23,29 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
-            'token': ''
+            'token': '',
+            'currentUsername': '',
+            'currentUserFullname': ''
         };
+    }
+
+    getCurrentUserFullname(username, users) {
+        const user = users.find(user => user.username === username)
+        return `${user.firstName} ${user.lastName}`
     }
 
     getToken(username, password) {
         axios.post(default_url + apiAuth + '/', {username: username, password: password})
             .then(response => {
-                this.setToken(response.data['token']);
+                this.setToken(response.data['token'], username);
             })
             .catch(error => alert('Неверный логин или пароль'));
     }
 
-    setToken(token) {
+    setToken(token, username) {
         const cookies = new Cookies()
         cookies.set('token', token)
-        this.setState({'token': token}, () => this.loadData())
+        this.setState({'token': token, 'currentUsername': username}, () => this.loadData())
     }
 
     isAuthenticated() {
@@ -46,7 +53,8 @@ class App extends React.Component {
     }
 
     logout() {
-        this.setToken('')
+        this.setToken('', '')
+        this.setState({'currentUserFullname': ''})
         window.location.reload()
     }
 
@@ -57,32 +65,56 @@ class App extends React.Component {
     }
 
 
-
     loadData() {
+        const headers = this.getHeaders()
+        let data;
         apiServices.forEach((apiService) => {
             axios
-                .get(`${api_url}/${apiService}/`)
+                .get(`${api_url}/${apiService}/`, {headers})
                 .then(response => {
-                    this.setState(
-                        {
-                            [apiService]: response.data.results
+                    if (apiService === 'users' && this.state.currentUserFullname === '') {
+                        data = {
+                            [apiService]: response.data.results,
+                            'currentUserFullname':
+                                this.getCurrentUserFullname(this.state.currentUsername, response.data.results)
                         }
+                    } else {
+                        data = {[apiService]: response.data.results}
+                    }
+                    this.setState(
+                        data
                     );
-                }).catch(error => console.log(error));
+                }).catch(error => {
+                console.log(error);
+                this.setState(
+                    {
+                        [apiService]: []
+                    }
+                );
+            });
         })
     }
 
+    getHeaders() {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        if (this.isAuthenticated()) {
+            headers['Authorization'] = 'Token' + this.state.token
+        }
+        return headers
+    }
 
     componentDidMount() {
         this.getTokenFromStorage();
-        this.loadData();
     }
 
     render() {
         return (
             <div className={'App'}>
                 <BrowserRouter>
-                    <Header userIsAuth={this.isAuthenticated.bind(this)} userLogout={this.logout.bind(this)}/>
+                    <Header userIsAuth={this.isAuthenticated.bind(this)} userLogout={this.logout.bind(this)}
+                            username={this.state.currentUserFullname}/>
                     <div className="container">
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>

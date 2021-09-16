@@ -138,3 +138,11 @@ a:hover {
     box-sizing: border-box;
     border: 1px inset;
 }
+
+.text_button {
+    border-style: none;
+    background: none;
+    font-size: 18px;
+    color: white;
+    font-weight: 700;
+}
