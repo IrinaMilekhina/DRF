@@ -13,6 +13,7 @@ class ProjectModelSerializer(serializers.ModelSerializer):
 
 
 class TodoModelSerializer(serializers.ModelSerializer):
+    project = serializers.SlugRelatedField(read_only=True, slug_field='name')
 
     class Meta:
         model = Todo
