@@ -4,7 +4,7 @@ import UsersList from "./Users";
 
 const ProjectDetailItem = ({projects}) => {
     let {id} = useParams();
-    let projectItem = projects.find(item => item.id === +id)
+    let projectItem = projects.find((item) => item.id === +id)
     return (
         <div>
             <h1>{projectItem.name}</h1>
