@@ -13,7 +13,8 @@ class Command(BaseCommand):
         number = options['number']
         for i in range(1, number + 1):
             user = User.objects.create_user(username=f'username{i}',
-                                       first_name=f'fname{i}',
-                                       last_name=f'lname{i}',
-                                       email=f'email{i}@mail.ru')
+                                            first_name=f'fname{i}',
+                                            last_name=f'lname{i}',
+                                            email=f'email{i}@mail.ru',
+                                            password='geekbrains')
             print(f'{user} создан')
