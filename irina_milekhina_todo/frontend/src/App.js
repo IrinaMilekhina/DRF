@@ -8,6 +8,7 @@ import ProjectList from "./components/Projects";
 import TodoList from "./components/Todos";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import ProjectDetailItem from "./components/ProjectDetail";
+import LoginForm from "./components/LoginForm";
 
 
 const api_url = 'http://127.0.0.1:8000/api'
@@ -73,6 +74,7 @@ class App extends React.Component {
                             <Route exact path='/projects/'
                                    component={() => <ProjectList projects={this.state.projects}/>}/>
                             <Route exact path='/todos/' component={() => <TodoList todos={this.state.todos}/>}/>
+                            <Route exact path='/login/' component={() => <LoginForm/>}/>
                             <Route exact path='/projects/:id'>
                                 <ProjectDetailItem projects={this.state.projects}/>
                             </Route>
