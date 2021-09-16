@@ -16,6 +16,8 @@
     npm start
 
     nmp install axios
+    
+    npm install universal-cookie
 #   !!!посмотреть метод Пухова!!!
 
 -------------------------------------------
