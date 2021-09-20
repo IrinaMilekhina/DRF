@@ -8,3 +8,5 @@ django-cors-headers
 djangorestframework-camel-case
 djangorestframework-simplejwt
 requests
+
+mixer==7.1.2
