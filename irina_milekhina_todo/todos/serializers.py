@@ -20,7 +20,7 @@ class TodoModelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TodoBaseModelSerializer(serializers.ModelSerializer):
+class TodoModelSerializerBase(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = '__all__'

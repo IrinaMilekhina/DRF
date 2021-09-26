@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from todos.filters import TodoFilter, ProjectFilter
 from todos.models import Project, Todo
-from todos.serializers import ProjectModelSerializer, TodoModelSerializer, TodoBaseModelSerializer
+from todos.serializers import ProjectModelSerializer, TodoModelSerializer, TodoModelSerializerBase
 
 
 class TodoLimitOffsetPagination(LimitOffsetPagination):
@@ -36,4 +36,4 @@ class TodoViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.request.method in ['GET']:
             return TodoModelSerializer
-        return TodoBaseModelSerializer
+        return TodoModelSerializerBase
