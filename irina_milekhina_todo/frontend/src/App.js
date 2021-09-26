@@ -6,10 +6,11 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProjectList from "./components/Projects";
 import TodoList from "./components/Todos";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import ProjectDetailItem from "./components/ProjectDetail";
 import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie/lib";
+import NotFound from "./components/NotFound";
 
 const default_url = 'http://127.0.0.1:8000/'
 const api_url = 'http://127.0.0.1:8000/api';
@@ -126,6 +127,8 @@ class App extends React.Component {
                             <Route exact path='/projects/:id'>
                                 <ProjectDetailItem projects={this.state.projects}/>
                             </Route>
+                            <Redirect from='/users' to='/'/>
+                            <Route component={NotFound}/>
                         </Switch>
                     </div>
                 </BrowserRouter>

@@ -18,6 +18,8 @@
     nmp install axios
     
     npm install universal-cookie
+
+    nmp install react-router-dom
 #   !!!посмотреть метод Пухова!!!
 
 -------------------------------------------

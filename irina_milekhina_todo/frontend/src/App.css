@@ -146,3 +146,13 @@ a:hover {
     color: white;
     font-weight: 700;
 }
+
+.not_found_text {
+    color: black;
+    text-align: left;
+    text-indent: 40%;
+}
+
+.not_found_list {
+    list-style-type: none;
+}
