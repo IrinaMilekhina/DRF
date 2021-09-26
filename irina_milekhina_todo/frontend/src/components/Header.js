@@ -4,12 +4,12 @@ import {Link} from 'react-router-dom'
 const Header = (props) => {
     return (<div className="header">
             <ul className="header_list">
-                <li className="header_text"><Link to='/'>Пользователи</Link></li>
+                <li className="header_text"><Link to='/users'>Пользователи</Link></li>
                 <li className="header_text"><Link to='/projects/'>Проекты</Link></li>
                 <li className="header_text"><Link to='/todos/'>Заметки</Link></li>
                 <li className="header_text">
                     {props.userIsAuth() ?
-                        <button onClick={props.userLogout} className="text_button">{props.username} | Выйти</button>:
+                        <button onClick={props.userLogout} className="text_button"> | Выйти</button>:
                         <Link to='/login/'>Войти</Link>}
                 </li>
             </ul>

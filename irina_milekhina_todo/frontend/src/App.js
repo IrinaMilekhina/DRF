@@ -25,14 +25,7 @@ class App extends React.Component {
             'projects': [],
             'todos': [],
             'token': '',
-            'currentUsername': '',
-            'currentUserFullname': ''
         };
-    }
-
-    getCurrentUserFullname(username, users) {
-        const user = users.find(user => user.username === username)
-        return `${user.firstName} ${user.lastName}`
     }
 
     getToken(username, password) {
@@ -46,7 +39,7 @@ class App extends React.Component {
     setToken(token, username) {
         const cookies = new Cookies()
         cookies.set('token', token)
-        this.setState({'token': token, 'currentUsername': username}, () => this.loadData())
+        this.setState({'token': token}, () => this.loadData())
     }
 
     isAuthenticated() {
@@ -54,8 +47,7 @@ class App extends React.Component {
     }
 
     logout() {
-        this.setToken('', '')
-        this.setState({'currentUserFullname': ''})
+        this.setToken('')
         window.location.reload()
     }
 
@@ -73,17 +65,8 @@ class App extends React.Component {
             axios
                 .get(`${api_url}/${apiService}/`, {headers})
                 .then(response => {
-                    if (apiService === 'users' && this.state.currentUserFullname === '') {
-                        data = {
-                            [apiService]: response.data.results,
-                            'currentUserFullname':
-                                this.getCurrentUserFullname(this.state.currentUsername, response.data.results)
-                        }
-                    } else {
-                        data = {[apiService]: response.data.results}
-                    }
                     this.setState(
-                        data
+                        {[apiService]: response.data.results}
                     );
                 }).catch(error => {
                 console.log(error);
@@ -114,8 +97,7 @@ class App extends React.Component {
         return (
             <div className={'App'}>
                 <BrowserRouter>
-                    <Header userIsAuth={this.isAuthenticated.bind(this)} userLogout={this.logout.bind(this)}
-                            username={this.state.currentUserFullname}/>
+                    <Header userIsAuth={this.isAuthenticated.bind(this)} userLogout={this.logout.bind(this)}/>
                     <div className="container">
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
