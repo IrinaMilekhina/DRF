@@ -10,3 +10,5 @@ djangorestframework-simplejwt
 requests
 
 mixer==7.1.2
+
+drf-yasg
