@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3-d part apps
+    'graphene_django',
     'drf_yasg',
     'rest_framework',
     'corsheaders',
@@ -162,4 +163,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+}
+
+GRAPHENE = {
+    "SCHEMA": "irina_milekhina_todo.schema.schema"
 }
